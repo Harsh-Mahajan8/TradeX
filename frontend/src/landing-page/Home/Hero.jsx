@@ -1,13 +1,21 @@
 function Hero() {
-    return ( 
-        <div className="container">
-            <div className="row">
-                <div className="col">
-                    <img src="Home/landing.png" alt="" />
-                </div>
-            </div>
-        </div>
-     );
+  return (
+    <div className="container mb-[6rem]">
+      <div className="row text-center col-10 mx-auto">
+        <img src="Home/landing.png" alt="" className="mb-5 mx-auto" />
+        <h2>Invest in everything</h2>
+        <p className="text-xl">
+          Online platform to invest in stocks, derivatives, mutual funds, ETFs,
+          bonds, and more
+        </p>
+        <span>
+          <button className="sign fs-5 py-[1rem] px-4 btn btn-primary my-2">
+            Sign up for free
+          </button>
+        </span>
+      </div>
+    </div>
+  );
 }
 
 export default Hero;

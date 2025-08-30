@@ -1,68 +1,113 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#root {
+  @apply text-gray-700;
+  font-family: "Inter", sans-serif;
 }
 
+.data p {
+  font-size: 0.91rem;
+  color: #5f5f5f;
+  line-height: 1.52rem;
+}
+p {
+  color: #3e3e3e;
+}
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  text-decoration: none;
+  color: #387ed1;
 }
 a:hover {
-  color: #535bf2;
+  color: #000;
 }
-
-body {
+.imgs img {
+  width: 7.3rem !important;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.imgs span {
+  font-size: 0.6rem;
+  position: relative;
+  left: -20px;
+  top: 30px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button .sign {
+  background: #387ed1 !important;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.navItems {
+  @apply p-1 text-[0.94rem] text-zinc-800;
+}
+
+.navItems:hover {
+  color: #387ed1 !important;
+}
+button .btn:hover {
+  background: #000 !important;
+}
+
+.name {
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
+
+/* Ensure Bootstrap navbar collapse isn't hidden by Tailwind's `.collapse` utility */
+.navbar .collapse {
+  visibility: visible !important;
+}
+.navbar .collapsing {
+  visibility: visible !important;
+}
+
+.social-media i {
+  margin-right: 1rem;
+  padding: 0.81rem;
+}
+
+.head {
+  font-weight: 450;
+  font-size: 0.9rem !important;
+}
+
+.footerList {
+  @apply p-0;
+}
+.footerList li {
+  @apply mb-4;
+}
+.paraHeight {
+  line-height: 1.17rem;
+}
+
+.footer a {
+  color: #7a7a7a;
+  margin-bottom: 4rem;
+}
+.footer a:hover {
+  color: #387ed1;
+}
+
+.bottom a{
+  @apply pr-4 text-[0.8rem] font-semibold text-zinc-400;
+}
+.paraLineHeight p a{
+  color: #387ed1!important;
+}
+.active{
+  color: #387ed1!important;
+}
+.box img{
+  @apply h-14 w-auto my-5 mx-auto object-fill p-1
+}
+.box{
+  @apply text-[0.8rem] m-5 font-semibold  
+}
+
+.box p{
+  color: #6c6c6c!important;
+}
+img:hover{
+  opacity: 0.8;
 }
