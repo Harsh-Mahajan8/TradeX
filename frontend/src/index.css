@@ -89,25 +89,49 @@ button .btn:hover {
   color: #387ed1;
 }
 
-.bottom a{
+.bottom a {
   @apply pr-4 text-[0.8rem] font-semibold text-zinc-400;
 }
-.paraLineHeight p a{
-  color: #387ed1!important;
+.paraLineHeight p a {
+  color: #387ed1 !important;
 }
-.active{
-  color: #387ed1!important;
+.active {
+  color: #387ed1 !important;
 }
-.box img{
-  @apply h-14 w-auto my-5 mx-auto object-fill p-1
+.box img {
+  @apply h-14 w-auto my-5 mx-auto object-fill p-1;
 }
-.box{
-  @apply text-[0.8rem] m-5 font-semibold  
+.box {
+  @apply text-[0.8rem] m-5 font-semibold;
 }
 
-.box p{
-  color: #6c6c6c!important;
+.box p {
+  color: #6c6c6c !important;
 }
-img:hover{
+img:hover {
   opacity: 0.8;
+}
+
+.btm img {
+  @apply h-[12rem] mx-auto my-auto p-1;
+}
+.btm h3 {
+  @apply py-4;
+}
+
+.btm p {
+  @apply text-[#646464];
+}
+.pricing a {
+  color: #387ed1;
+  font-size: 1.62rem;
+  padding: 0.7rem 01.3rem;
+  font-weight: 500;
+}
+.navActive {
+  @apply border-b-2 border-[#387ed1] text-[#616161!important];
+}
+.row ul {
+  list-style: disc;
+  padding-left: 1.5rem;
 }

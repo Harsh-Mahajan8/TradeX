@@ -10,6 +10,9 @@ import PricingPage from "./landing-page/Pricing/PricingPage";
 import Navbar from "./landing-page/Navbar";
 import Footer from "./landing-page/Footer";
 import NotFound from "./landing-page/NotFound";
+import Equity from "./landing-page/Pricing/BrokageCal/Equity";
+import Commodity from "./landing-page/Pricing/BrokageCal/Commodity";
+import Currency from "./landing-page/Pricing/BrokageCal/Currency";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -19,9 +22,13 @@ createRoot(document.getElementById("root")).render(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/product" element={<ProductPage />} />
-      <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/pricing" element={<PricingPage />}>
+        <Route path="equity" element={<Equity />} />
+        <Route path="currency" element={<Currency />} />
+        <Route path="commodity" element={<Commodity />} />
+      </Route>
       <Route path="/support" element={<SupportPage />} />
-      <Route path="*" element = {<NotFound/>}/>
+      <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />
   </BrowserRouter>

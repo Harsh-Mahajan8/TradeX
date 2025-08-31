@@ -1,13 +1,13 @@
-import BrokageCal from "./BrokageCal";
-import Charges from "./Charges";
-import ChargesBox from "./ChargesBox";
+import BrokageCal from "./BrokageCal/BrokageCal";
+import Hero from "./Hero";
+import ChargesBox from "./ChargesBoxes/ChargesBox";
 import ChargesDetail from "./ChargesDetail";
 
 function PricingPage() {
   return (
     <>
-      <Charges />
-      <BrokageCal />
+      <Hero/>
+      <BrokageCal/>
       <ChargesBox />
       <ChargesDetail />
     </>
