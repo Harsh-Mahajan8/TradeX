@@ -131,7 +131,19 @@ img:hover {
 .navActive {
   @apply border-b-2 border-[#387ed1] text-[#616161!important];
 }
-.row ul {
+ul {
   list-style: disc;
   padding-left: 1.5rem;
+}
+.charges p {
+  @apply text-[1.051rem];
+}
+.dropdown ul {
+  @apply ms-2;
+}
+.dropdown a {
+  @apply ps-3;
+}
+.dropdown li {
+  @apply m-3;
 }

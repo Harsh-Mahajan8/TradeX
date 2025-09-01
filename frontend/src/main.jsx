@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createRoot } from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
+
 import "./index.css";
 import HomePage from "./landing-page/Home/HomePage";
 import SignUpPage from "./landing-page/SignUp/SignUpPage";

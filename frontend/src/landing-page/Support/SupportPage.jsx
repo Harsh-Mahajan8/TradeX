@@ -4,8 +4,8 @@ import Support from "./Support";
 function SupportPage() {
   return (
     <>
+      <CreateTickets /> 
       <Support />
-      <CreateTickets />
     </>
   );
 }
