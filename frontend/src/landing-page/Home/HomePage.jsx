@@ -1,5 +1,3 @@
-import Footer from "../Footer";
-import Navbar from "../Navbar";
 import OpenAcc from "../OpenAcc";
 import Education from "./Education";
 import Hero from "./Hero";

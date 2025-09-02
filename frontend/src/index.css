@@ -34,10 +34,6 @@ a:hover {
   top: 30px;
 }
 
-button .sign {
-  background: #387ed1 !important;
-}
-
 .navItems {
   @apply p-1 text-[0.94rem] text-zinc-800;
 }
@@ -45,9 +41,7 @@ button .sign {
 .navItems:hover {
   color: #387ed1 !important;
 }
-button .btn:hover {
-  background: #000 !important;
-}
+
 
 .name {
   font-family: Verdana, Geneva, Tahoma, sans-serif !important;
@@ -146,4 +140,32 @@ ul {
 }
 .dropdown li {
   @apply m-3;
+}
+.sideTable .row{
+  @apply border-b border-x border-gray-100 p-[1rem] mx-4
+}
+.supInput:focus {
+  outline: none; /* removes the blue glow */
+  border: none;  /* removes the border */
+}
+.btn{
+  @apply bg-gradient-to-b from-indigo-400 to-pink-500 text-white font-semibold rounded my-2 px-3 mx-3
+}
+.btn:hover {
+  background: #000 !important;
+}
+.navbar a:hover{
+  @apply text-[#387ed1]
+}
+.dropDown .col-3 img{
+  @apply mx-auto
+}
+.dropDown header{
+  @apply text-[.91rem] mb-2
+}
+.dropDown p{
+ @apply text-[0.7rem] text-[#7d7d7d] font-medium
+}
+.dropRow li {
+  @apply text-[#5f5f5f] hover:text-[#387ed1] text-[.91rem] font-normal mb-1; 
 }

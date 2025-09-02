@@ -6,7 +6,7 @@ function Collapse({ children, isOpen }) {
 
   useEffect(() => {
     if (isOpen) {
-      setHeight(ref.current.scrollHeight + "px"); // expand
+      setHeight((ref.current.scrollHeight+1) + "px"); // expand
     } else {
       setHeight("0px"); // collapse
     }
@@ -26,14 +26,14 @@ export default function DropdownLayout({ title, children, icon }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="mt-[3rem]">
-      <div className="ms-4 my-[2rem] col-8 rounded">
+    <div className="ms-2">
+      <div className="ms-4 mb-[2rem]">
         <button
-          className="col-12 hover:scale-x-101 transition rounded border"
+          className="col-12 hover:scale-x-101 transition border rounded"
           onClick={() => setOpen(!open)}
         >
-          <div className="row text-[1.1rem] fs-5 text-black font-semibol rounded-sm">
-            <div className="col-1 py-3 bg-blue-50 text-[#387ed1] ps-2 ms-2 me-2">
+          <div className="row text-[1.051rem]  text-black font-semibold rounded-t">
+            <div className="col-1 rounded-r-sm py-[1.1rem] bg-[#f1f7ff] text-[#387ed1] ps-1 ms-[.81rem] me-2">
               {icon}
             </div>
             <div className="col-auto my-auto">{title}</div>
@@ -48,7 +48,7 @@ export default function DropdownLayout({ title, children, icon }) {
         </button>
 
         <Collapse isOpen={open}>
-          <div className="px-4 py-2 bg-white border">{children}</div>
+          <div className="crad px-4 py-2 border">{children}</div>
         </Collapse>
       </div>
     </div>

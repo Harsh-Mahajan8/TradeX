@@ -10,7 +10,7 @@ import AboutPage from "./landing-page/About/AboutPage";
 import ProductPage from "./landing-page/Products/ProductPage";
 import SupportPage from "./landing-page/Support/SupportPage";
 import PricingPage from "./landing-page/Pricing/PricingPage";
-import Navbar from "./landing-page/Navbar";
+import Navbar from "./landing-page/Navbar/Navbar";
 import Footer from "./landing-page/Footer";
 import NotFound from "./landing-page/NotFound";
 import Equity from "./landing-page/Pricing/BrokageCal/Equity";
