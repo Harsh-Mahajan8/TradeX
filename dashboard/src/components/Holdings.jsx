@@ -5,7 +5,7 @@ const Holdings = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3002/allholding").then((res) => {
-      console.log(res);
+      // console.log(res);
       setHoldings(res.data);
     });
   }, []);

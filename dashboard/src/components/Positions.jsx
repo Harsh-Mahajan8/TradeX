@@ -22,7 +22,7 @@ const Positions = () => {
               <th>Qty.</th>
               <th>Avg.</th>
               <th>LTP</th>
-              <th>P&L</th>
+              <th>P&L</th> 
               <th>Chg.</th>
             </tr>
             {positions.map((stock, idx) => {
