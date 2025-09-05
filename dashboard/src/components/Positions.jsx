@@ -1,5 +1,14 @@
-import { positions } from "../Data/data";
+
+import {useState, useEffect} from "react";
+import axios from "axios";
+
 const Positions = () => {
+  const [positions, setPositions] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3002/allposition").then((res) => {
+      setPositions(res.data);
+    }).catch((e) => console.log("position data is not loading in Position.jsx"+e))
+  },[])
   return (
     <>
       <h3 className="title">Positions (2)</h3>
