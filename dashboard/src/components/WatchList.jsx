@@ -1,25 +1,24 @@
-import { watchlist } from "../Data/data";
-
+import { watchlists } from "../Data/data";
 import WatchListItem from './WatchListItem';
 
 const WatchList = () => {
   return (
     <div className="watchlist-container">
-      <div className="search-container">
+      <div className="search-container text-zinc-700">
         <input
           type="text"
           name="search"
           id="search"
           placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
-          className="search"
+          className="search" 
         />
-        <span className="counts"> {watchlist.length} / 50</span>
+        <span className="counts"> {watchlists.length} / 50</span>
       </div>
 
       <ul className="list">
-        {watchlist.map((stock, idx) => {
+        {watchlists.map((stock) => {
           return(
-            <WatchListItem stock ={stock} key={idx}/>
+            <WatchListItem stock={stock} key={stock.name} />
           )
         })}
       </ul>

@@ -2,9 +2,12 @@ const { Schema } = require("mongoose");
 
 const OrderSchema = new Schema({
     name: String,
-    price: Number,
-    percent: String,
-    isDown: Boolean,
+    qty:Number,
+    price:Number,
+    orderStatus:{type:String,default:"Executed"},
+    mode:String,
+    product:String,
+    time: { type: Date, default: Date.now }
 })
 
 module.exports = OrderSchema;

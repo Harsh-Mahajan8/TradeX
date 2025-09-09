@@ -6,9 +6,10 @@ const PositionSchema = new Schema({
     qty: Number,
     avg: Number,
     price: Number,
-    net: String,
-    day: String,
+    net: Number,
+    day: Number,
     isLoss: Boolean,
+    expiryTime: Date
 })
 
 module.exports = PositionSchema;

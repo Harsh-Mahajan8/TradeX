@@ -10,9 +10,9 @@ async function main() {
         await mongoose.connect(URL);
         console.log("✅ Mongo is connected in Order init");
 
-        // Insert data
+        // Insert data from user
         await OrderModel.deleteMany({});
-        await OrderModel.insertMany(watchlist);
+        // await OrderModel.insertMany(watchlist);
         console.log("✅ Order data is saved in DB");
 
     } catch (err) {

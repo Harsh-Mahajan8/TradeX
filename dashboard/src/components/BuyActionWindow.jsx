@@ -1,45 +1,112 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 function BuyActionWindow({ uid }) {
+  const [orderData, setOrderdata] = useState({
+    name: "",
+    price: 0.0,
+    qty: 1,
+    mode: "BUY",
+    product: "",
+  });
   const context = useContext(GeneralContext);
+
+  const handleBuyClick = async () => {
+    axios
+      .post("http://localhost:3002/neworder", {
+        name: uid,
+        qty: orderData.qty,
+        price: orderData.price,
+        mode: "BUY",
+        product: orderData.product,
+        orderStatus: "Executed",
+      })
+      .then((res) => {
+        console.log(res);
+      });
+    context.closeBuyWindow();
+  };
   const handleCancelBtn = () => {
     context.closeBuyWindow();
   };
 
   return (
-    // <div className="containerClass" id="buy-window" draggable="true">
-    //   <div className="regular-order">
-    //     <div className="inputs">
-    //       <fieldset>
-    //         <legend>Qty.</legend>
-    //         <input type="number" name="qty" id="qty" />
-    //       </fieldset>
-    //       <fieldset>
-    //         <legend>Price</legend>
-    //         <input type="number" name="price" id="price" step="0.05" />
-    //       </fieldset>
-    //     </div>
-    //   </div>
+    <div
+      className="shadow-md border-zinc-400 ps-2 pb-3 pt-0 rounded-md"
+      id="buy-window"
+      draggable="true"
+    >
+      <span className="row mb-2 h-10 bg-blue-400 px-3 rounded-t text-white font-semibold">
+        {uid}
+      </span>
 
-    <div className="containerClass" id="buy-window" draggable="true">
       <Box
         component="form"
         sx={{ "& > :not(style)": { m: 1, width: "15ch" } }}
         noValidate
         autoComplete="off"
-        className="flex"
+        className="flex pb-3"
       >
-        <TextField size="small" id="qty" label="Qty." />
-        <TextField size="small" id="price" label="Price" />
+        <TextField
+          size="small"
+          id="qty"
+          label="Qty."
+          onChange={(e) =>
+            setOrderdata({ ...orderData, qty: parseInt(e.target.value) || 1 })
+          }
+          value={orderData.qty}
+        />
+        <TextField
+          size="small"
+          id="price"
+          label="Price"
+          onChange={(e) =>
+            setOrderdata({
+              ...orderData,
+              price: parseFloat(e.target.value) || 0,
+            })
+          }
+          value={orderData.price}
+        />
       </Box>
-      <div className="buttons flex mt-4">
-        <span className="text-[0.9em]">Margin required ₹140.65</span>
-        <div>
-          <Link className="btn btn-blue">Buy</Link>
-          <Link to="" className="btn rounded btn-sm btn-grey" onClick={handleCancelBtn}>
+      <FormControl className="ms-[.82rem!important]">
+        <FormLabel id="demo-row-radio-buttons-group-label">Product</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+          onChange={(e) =>
+            setOrderdata({
+              ...orderData,
+              product: e.target.value,
+            })
+          }
+        >
+          <FormControlLabel value="CNC" control={<Radio />} label="CNC" />
+          <FormControlLabel value="MIS" control={<Radio />} label="MIS" />
+          <FormControlLabel value="NRML" control={<Radio />} label="NRML" />
+        </RadioGroup>
+      </FormControl>
+      <div className="buttons flex justify-between mt-4">
+        <span className="text-[0.8em] ps-2">Margin required ₹140.65</span>
+        <div className="">
+          <Link className="buyActionBtn" onClick={handleBuyClick}>
+            Buy
+          </Link>
+          <Link
+            to=""
+            className="buyActionBtn bg-[#ff3737!important]"
+            onClick={handleCancelBtn}
+          >
             Cancel
           </Link>
         </div>

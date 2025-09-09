@@ -5,10 +5,13 @@ const Holdings = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3002/allholding").then((res) => {
-      // console.log(res);
       setHoldings(res.data);
     });
   }, []);
+  const totalInvestment = holdings.reduce((sum, s) => sum + s.avg * s.qty, 0);
+  const currentValue = holdings.reduce((sum, s) => sum + s.price * s.qty, 0);
+  const pnlAbs = currentValue - totalInvestment;
+  const pnlPct = totalInvestment ? (pnlAbs / totalInvestment) * 100 : 0;
   return (
     <>
       <h3 className="title">Holdings ({holdings.length})</h3>
@@ -29,9 +32,14 @@ const Holdings = () => {
 
             {holdings.map((stock, idx) => {
               const curValue = stock.price * stock.qty;
-              const isProfit = stock.net - stock.avg * stock.qty >= 0.0;
-              const profClass = isProfit ? "profit" : "loss";
-              const dayClass = stock.isLoss ? "loss" : "profit";
+              // const isProfit = stock.net - stock.avg * stock.qty >= 0.0;
+              const lp = (
+                ((stock.price - stock.avg) / stock.avg) *
+                100
+              ).toFixed(2);
+              const profClass = lp > 0 ? "profit" : "loss";
+              const NetClass = stock.net > 0 ? "profit" : "loss";
+              const dayClass = stock.day < 0 ? "loss" : "profit";
               return (
                 <tr key={idx}>
                   <td>{stock.name}</td>
@@ -39,11 +47,9 @@ const Holdings = () => {
                   <td>{stock.avg.toFixed(2)}</td>
                   <td>{stock.price.toFixed(2)}</td>
                   <td>{curValue.toFixed(2)}</td>
-                  <td className={profClass}>
-                    {(curValue - stock.avg * stock.qty).toFixed(2)}
-                  </td>
-                  <td className={profClass}>{stock.net}</td>
-                  <td className={dayClass}>{stock.day}</td>
+                  <td className={profClass}>{lp}%</td>
+                  <td className={NetClass}>{stock.net.toFixed(2)}%</td>
+                  <td className={dayClass}>{stock.day.toFixed(2)}%</td>
                 </tr>
               );
             })}
@@ -53,19 +59,17 @@ const Holdings = () => {
 
       <div className="row">
         <div className="col">
-          <h5>
-            29,875.<span>55</span>{" "}
-          </h5>
+          <h5>{totalInvestment.toFixed(2)}</h5>
           <p>Total investment</p>
         </div>
         <div className="col">
-          <h5>
-            31,428.<span>95</span>{" "}
-          </h5>
+          <h5>{currentValue.toFixed(2)}</h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5>1,553.40 (+5.20%)</h5>
+          <h5>
+            {pnlAbs.toFixed(2)} ({pnlPct.toFixed(2)}%)
+          </h5>
           <p>P&L</p>
         </div>
       </div>
