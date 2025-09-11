@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import GeneralContext from "./GeneralContext";
@@ -99,16 +98,15 @@ function BuyActionWindow({ uid }) {
       <div className="buttons flex justify-between mt-4">
         <span className="text-[0.8em] ps-2">Margin required ₹140.65</span>
         <div className="">
-          <Link className="buyActionBtn" onClick={handleBuyClick}>
+          <button className="buyActionBtn" onClick={handleBuyClick}>
             Buy
-          </Link>
-          <Link
-            to=""
+          </button>
+          <button
             className="buyActionBtn bg-[#ff3737!important]"
             onClick={handleCancelBtn}
           >
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </div>

@@ -1,17 +1,52 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-const Holdings = () => {
+import { useEffect, useState, useRef } from "react";
+
+const Holdings = ({ updateSummary }) => {
   const [holdings, setHoldings] = useState([]);
+  const updateSummaryRef = useRef(updateSummary);
+
+  // Update the ref when updateSummary changes
+  useEffect(() => {
+    updateSummaryRef.current = updateSummary;
+  }, [updateSummary]);
 
   useEffect(() => {
     axios.get("http://localhost:3002/allholding").then((res) => {
-      setHoldings(res.data);
+      setHoldings(res.data || []);
     });
   }, []);
-  const totalInvestment = holdings.reduce((sum, s) => sum + s.avg * s.qty, 0);
-  const currentValue = holdings.reduce((sum, s) => sum + s.price * s.qty, 0);
-  const pnlAbs = currentValue - totalInvestment;
-  const pnlPct = totalInvestment ? (pnlAbs / totalInvestment) * 100 : 0;
+
+  // Move updateSummary call inside useEffect and remove updateSummary from dependencies
+  useEffect(() => {
+    if (holdings.length === 0) {
+      updateSummaryRef.current({
+        holdingLen: 0,
+        tInvestment: 0,
+        currValue: 0,
+        lp: { per: 0, num: 0 },
+      });
+      return;
+    }
+
+    const totalInvestment = holdings.reduce(
+      (sum, s) => sum + (s.avg || 0) * (s.qty || 0),
+      0
+    );
+    const currentValue = holdings.reduce(
+      (sum, s) => sum + (s.price || 0) * (s.qty || 0),
+      0
+    );
+    const pnlAbs = currentValue - totalInvestment;
+    const pnlPct = totalInvestment ? (pnlAbs / totalInvestment) * 100 : 0;
+
+    updateSummaryRef.current({
+      holdingLen: holdings.length,
+      tInvestment: totalInvestment,
+      currValue: currentValue,
+      lp: { per: pnlPct, num: pnlAbs },
+    });
+  }, [holdings]); // Only depend on holdings
+
   return (
     <>
       <h3 className="title">Holdings ({holdings.length})</h3>
@@ -31,25 +66,33 @@ const Holdings = () => {
             </tr>
 
             {holdings.map((stock, idx) => {
-              const curValue = stock.price * stock.qty;
-              // const isProfit = stock.net - stock.avg * stock.qty >= 0.0;
-              const lp = (
-                ((stock.price - stock.avg) / stock.avg) *
-                100
-              ).toFixed(2);
+              const curValue = (stock.price || 0) * (stock.qty || 0);
+              const lp = stock.avg
+                ? (((stock.price || 0) - stock.avg) / stock.avg) * 100
+                : 0;
               const profClass = lp > 0 ? "profit" : "loss";
-              const NetClass = stock.net > 0 ? "profit" : "loss";
-              const dayClass = stock.day < 0 ? "loss" : "profit";
+              const NetClass = (stock.net || 0) > 0 ? "profit" : "loss";
+              const dayClass = (stock.day || 0) < 0 ? "loss" : "profit";
+
               return (
                 <tr key={idx}>
-                  <td>{stock.name}</td>
-                  <td>{stock.qty}</td>
-                  <td>{stock.avg.toFixed(2)}</td>
-                  <td>{stock.price.toFixed(2)}</td>
+                  <td>{stock.name || "N/A"}</td>
+                  <td>{stock.qty || 0}</td>
+                  <td>{(stock.avg || 0).toFixed(2)}</td>
+                  <td>{(stock.price || 0).toFixed(2)}</td>
                   <td>{curValue.toFixed(2)}</td>
-                  <td className={profClass}>{lp}%</td>
-                  <td className={NetClass}>{stock.net.toFixed(2)}%</td>
-                  <td className={dayClass}>{stock.day.toFixed(2)}%</td>
+                  <td className={profClass}>
+                    {profClass === "profit" ? "+" : ""}
+                    {lp.toFixed(2)}%
+                  </td>
+                  <td className={NetClass}>
+                    {NetClass === "profit" ? "+" : ""}
+                    {(stock.net || 0).toFixed(2)}%
+                  </td>
+                  <td className={dayClass}>
+                    {dayClass === "profit" ? "+" : ""}
+                    {(stock.day || 0).toFixed(2)}%
+                  </td>
                 </tr>
               );
             })}
@@ -59,16 +102,77 @@ const Holdings = () => {
 
       <div className="row">
         <div className="col">
-          <h5>{totalInvestment.toFixed(2)}</h5>
+          <h5>
+            ₹{" "}
+            {holdings
+              .reduce((sum, s) => sum + (s.avg || 0) * (s.qty || 0), 0)
+              .toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+          </h5>
           <p>Total investment</p>
         </div>
         <div className="col">
-          <h5>{currentValue.toFixed(2)}</h5>
+          <h5>
+            ₹{" "}
+            {holdings
+              .reduce((sum, s) => sum + (s.price || 0) * (s.qty || 0), 0)
+              .toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+          </h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5>
-            {pnlAbs.toFixed(2)} ({pnlPct.toFixed(2)}%)
+          <h5
+            className={
+              holdings.reduce(
+                (sum, s) => sum + (s.price || 0) * (s.qty || 0),
+                0
+              ) -
+                holdings.reduce(
+                  (sum, s) => sum + (s.avg || 0) * (s.qty || 0),
+                  0
+                ) >
+              0
+                ? "profit"
+                : "loss"
+            }
+          >
+            ₹
+            {(
+              holdings.reduce(
+                (sum, s) => sum + (s.price || 0) * (s.qty || 0),
+                0
+              ) -
+              holdings.reduce((sum, s) => sum + (s.avg || 0) * (s.qty || 0), 0)
+            ).toLocaleString("en-IN", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
+            (
+            {(holdings.reduce((sum, s) => sum + (s.avg || 0) * (s.qty || 0), 0)
+              ? ((holdings.reduce(
+                  (sum, s) => sum + (s.price || 0) * (s.qty || 0),
+                  0
+                ) -
+                  holdings.reduce(
+                    (sum, s) => sum + (s.avg || 0) * (s.qty || 0),
+                    0
+                  )) /
+                  holdings.reduce(
+                    (sum, s) => sum + (s.avg || 0) * (s.qty || 0),
+                    0
+                  )) *
+                100
+              : 0
+            ).toLocaleString("en-IN", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+            %)
           </h5>
           <p>P&L</p>
         </div>
