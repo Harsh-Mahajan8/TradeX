@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import "./index.css";
 import HomePage from "./landing-page/Home/HomePage";
@@ -16,6 +16,7 @@ import NotFound from "./landing-page/NotFound";
 import Equity from "./landing-page/Pricing/BrokageCal/Equity";
 import Commodity from "./landing-page/Pricing/BrokageCal/Commodity";
 import Currency from "./landing-page/Pricing/BrokageCal/Currency";
+import LoginPage from "./landing-page/LoginPage";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -31,8 +32,10 @@ createRoot(document.getElementById("root")).render(
         <Route path="commodity" element={<Commodity />} />
       </Route>
       <Route path="/support" element={<SupportPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+   
     <Footer />
   </BrowserRouter>
 );

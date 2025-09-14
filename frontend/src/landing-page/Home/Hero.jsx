@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function Hero() {
   return (
     <div className="container mb-[6rem]">
@@ -9,9 +10,12 @@ function Hero() {
           bonds, and more
         </p>
         <span>
-          <button className="sign fs-5 py-[1rem] px-4 btn btn-primary my-2">
-            Sign up for free
-          </button>
+          {" "}
+          <Link to={"/signup"}>
+            <button className="sign fs-5 py-[1rem] px-4 btn btn-primary my-2">
+              Sign up for free
+            </button>
+          </Link>
         </span>
       </div>
     </div>

@@ -50,8 +50,7 @@ function Navbar() {
             <ul className="navbar-nav justify-content-end flex-grow-1 gap-3">
               <li className="nav-item navItems">
                 <NavLink
-                  className={`nav-link ${({ isActive }) =>
-                    isActive ? "active" : undefined}`}
+                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                   end
                   aria-current="page"
                   to="/signup"
@@ -61,8 +60,7 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={`nav-link ${({ isActive }) =>
-                    isActive ? "active" : undefined}`}
+                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                   end
                   to="/about"
                 >
@@ -71,8 +69,7 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={`nav-link ${({ isActive }) =>
-                    isActive ? "active" : undefined}`}
+                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                   end
                   to="/product"
                 >
@@ -81,8 +78,7 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={`nav-link ${({ isActive }) =>
-                    isActive ? "active" : undefined}`}
+                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                   end
                   to="/pricing"
                 >
@@ -91,8 +87,7 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={`nav-link ${({ isActive }) =>
-                    isActive ? "active" : undefined}`}
+                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
                   end
                   to="/support"
                 >
