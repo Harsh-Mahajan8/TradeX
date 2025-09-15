@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { Pagination } from "@mui/material";
 import WatchListItem from "./WatchListItem";
 import axios from "axios";
 import StockListItem from "./StockListItem";
 import { Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+
 const StockDetailList = () => {
   const [watchListData, setWatchListData] = useState([]);
   const [stockData, setStockData] = useState([]);
@@ -13,10 +13,10 @@ const StockDetailList = () => {
   const searchQuery = useRef();
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allwatchlist").then((res) => {
+    axios.get("http://localhost:3002/load/watchlist").then((res) => {
       setWatchListData(res.data || []);
     });
-    axios.get("http://localhost:3002/allstockdata").then((res) => {
+    axios.get("http://localhost:3002/load/stocks").then((res) => {
       setStockData(res.data || []);
     });
   }, []);
@@ -61,6 +61,7 @@ const StockDetailList = () => {
     setSearchResults(result || null);
     console.log("Search query:", query);
   };
+
   return (
     <div
       className="watchlist-container h-auto mt-1"
@@ -76,7 +77,7 @@ const StockDetailList = () => {
           className="search"
         />
         <button
-          className="hover:cursor-pointer text-gray-500"  
+          className="hover:cursor-pointer text-gray-500"
           onClick={handleSearch}
         >
           <SearchIcon />

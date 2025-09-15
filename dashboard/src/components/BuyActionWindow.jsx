@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import axios from "axios";
-import GeneralContext from "./GeneralContext";
+import GeneralContext from "./GeneralContext/GeneralContext";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -20,18 +19,14 @@ function BuyActionWindow({ uid }) {
   const context = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
-    axios
-      .post("http://localhost:3002/neworder", {
-        name: uid,
-        qty: orderData.qty,
-        price: orderData.price,
-        mode: "BUY",
-        product: orderData.product,
-        orderStatus: "Executed",
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    context.buyStock({
+      name: uid,
+      qty: orderData.qty,
+      price: orderData.price,
+      mode: "BUY",
+      product: orderData.product,
+      orderStatus: "Executed",
+    });
     context.closeBuyWindow();
   };
   const handleCancelBtn = () => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
-import GeneralContext from "./GeneralContext";
+import GeneralContext from "./GeneralContext/GeneralContext";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
@@ -9,7 +9,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
-import axios from "axios";
+import WatchlistContext from "./GeneralContext/WishlistContext";
 
 function StockListItem({ stock, onAddToWatchlist }) {
   let [showWatchlistAction, setShowWatchlistAction] = useState(false);
@@ -21,9 +21,16 @@ function StockListItem({ stock, onAddToWatchlist }) {
   let handleMouseLeave = () => {
     setShowWatchlistAction(false);
   };
+  const BuyContext = useContext(GeneralContext);
 
   return (
-    <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <li
+      className={` ${
+        BuyContext.selectedStock == stock.name ? "bg-gray-200" : ""
+      }`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className={`item ${stock.percent < 0 ? "down" : "up"}`}>
         <p>{stock.name}</p>
         <div className="itemInfo">
@@ -51,19 +58,11 @@ function StockListItem({ stock, onAddToWatchlist }) {
 
 const WatchListAction = ({ uuid, onAddToWatchlist }) => {
   const BuyContext = useContext(GeneralContext);
-
-  const addToWishList = async () => {
-    try {
-      await axios.post("http://localhost:3002/addtowatchList", { name: uuid });
-      console.log(`${uuid} stock is saved on watchlist`);
-      // Refresh the watchlist data
-      if (onAddToWatchlist) {
-        onAddToWatchlist();
-      }
-    } catch (error) {
-      console.error("Error adding to watchlist:", error);
-    }
-  };
+  const { addToWishList } = useContext(WatchlistContext);
+  // Refresh the watchlist data
+  if (onAddToWatchlist) {
+    onAddToWatchlist();
+  }
   return (
     <span className="actions">
       <span>
@@ -110,7 +109,7 @@ const WatchListAction = ({ uuid, onAddToWatchlist }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action" onClick={addToWishList}>
+          <button className="action" onClick={() => addToWishList(uuid)}>
             <AddIcon className="icon" />
           </button>
         </Tooltip>

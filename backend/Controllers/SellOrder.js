@@ -1,4 +1,3 @@
-require('dotenv').config();
 const HoldingModel = require("../models/HoldingModel.js");
 const PositionModel = require("../models/PositionModel.js");
 const OrderModel = require("../models/OrderModel.js");
@@ -10,7 +9,7 @@ module.exports.sellOrderController = async (req, res) => {
     try {
         console.log(req.originalUrl);
         const { name, qty, price, mode, product, orderStatus } = req.body;
-        if (!name || !qty) return res.status(400).json({ message: "Missing fields" });
+        if (!name || !qty) return res.status(400).json({ msg: "Missing fields",status:"error" });
 
         // Load docs inside the session
         const pos = await PositionModel.findOne({ name, product }).session(session);
@@ -27,7 +26,7 @@ module.exports.sellOrderController = async (req, res) => {
             }], { session });
             await session.commitTransaction();
             session.endSession();
-            return res.status(400).json({ message: "Insufficient quantity, order cancelled" });
+            return res.status(200).json({ msg: "Insufficient quantity, order cancelled", status: "error" });
         }
 
         // Save executed order
@@ -65,12 +64,12 @@ module.exports.sellOrderController = async (req, res) => {
 
         await session.commitTransaction();
         session.endSession();
-        return res.json({ message: "Sell order executed successfully" });
+        return res.json({ msg: "Sell order executed successfully", status: "success" });
 
     } catch (err) {
         await session.abortTransaction();
         session.endSession();
         console.error("Error in /sellOrder:", err);
-        return res.status(500).json({ message: "Error processing sell order", error: err.message });
+        return res.status(500).json({ msg: "Error processing sell order", error: err.message, status: "error" });
     }
 };

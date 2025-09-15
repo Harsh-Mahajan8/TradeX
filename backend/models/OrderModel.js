@@ -1,4 +1,15 @@
-const {model} = require("mongoose");
-const OrderSchema = require("../schemas/OrderSchema.js")
+const { model, Schema } = require("mongoose");
 
-module.exports = model("Order",OrderSchema);
+
+const OrderSchema = new Schema({
+    name: String,
+    qty: Number,
+    price: Number,
+    orderStatus: { type: String, default: "Executed" },
+    mode: String,
+    product: String,
+    time: { type: Date, default: Date.now }
+})
+
+
+module.exports = model("Order", OrderSchema);

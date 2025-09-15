@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import axios from "axios";
-import GeneralContext from "./GeneralContext";
+import GeneralContext from "./GeneralContext/GeneralContext";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -20,18 +19,14 @@ function SellActionWindow({ uid }) {
   const context = useContext(GeneralContext);
 
   const handleSellClick = async () => {
-    axios
-      .post("http://localhost:3002/sellorder", {
-        name: uid,
-        qty: orderData.qty, // Negative quantity for sell orders
-        price: orderData.price,
-        mode: "SELL",
-        product: orderData.product,
-        orderStatus: "Executed",
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    context.sellStock({
+      name: uid,
+      qty: orderData.qty,
+      price: orderData.price,
+      mode: "SELL",
+      product: orderData.product,
+      orderStatus: "Executed",
+    });
     context.closeSellWindow();
   };
   const handleCancelBtn = () => {

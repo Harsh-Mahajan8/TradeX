@@ -8,7 +8,8 @@ import Orders from "./Orders";
 import Positions from "./Positions";
 import Summary from "./Summary";
 import StockDetailList from "./StockDetailList";
-import { GeneralContextProvider } from "./GeneralContext";
+import { GeneralContextProvider } from "./GeneralContext/GeneralContext";
+import { WatchlistContextProvider } from "./GeneralContext/WishlistContext";
 const Dashboard = () => {
   const [summary, setSummary] = useState({
     holdingLen: 0,
@@ -24,7 +25,9 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <GeneralContextProvider>
-        <StockDetailList />
+        <WatchlistContextProvider>
+          <StockDetailList />
+        </WatchlistContextProvider>
       </GeneralContextProvider>
 
       <div className="content">

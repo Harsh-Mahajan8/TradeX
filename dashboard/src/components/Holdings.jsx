@@ -11,7 +11,7 @@ const Holdings = ({ updateSummary }) => {
   }, [updateSummary]);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allholding").then((res) => {
+    axios.get("http://localhost:3002/load/holdings").then((res) => {
       setHoldings(res.data || []);
     });
   }, []);

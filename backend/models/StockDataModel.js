@@ -1,5 +1,11 @@
-const { model } = require("mongoose");
+const { model, Schema } = require("mongoose");
 
-const StockDataSchema = require("../schemas/StockDataSchema");
+const StockDataSchema = new Schema({
+    name: String,
+    price: Number,
+    percent: Number,
+    avgCost: Number,
+    ycp: Number,
+});
 
 module.exports = model("StockDataModel", StockDataSchema);

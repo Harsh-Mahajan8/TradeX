@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodmeon app.js"
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -22,7 +23,8 @@
     "express": "^5.1.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.18.2",
-    "mongoose": "^8.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.1",
     "node-cron": "^4.2.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",

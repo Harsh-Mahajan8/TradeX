@@ -1,4 +1,12 @@
-const { model } = require("mongoose");
-const HoldingSchema = require("../schemas/HoldingSchema.js")
+const { model, Schema  } = require("mongoose");
+const HoldingSchema = new Schema({
+    product: String,
+    name: String,
+    qty: Number,
+    avg: Number,
+    price: Number,
+    net: Number,
+    day: Number,
+})
 
 module.exports = model("Holding", HoldingSchema);

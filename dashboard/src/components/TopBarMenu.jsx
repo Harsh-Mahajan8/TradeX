@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useState, Fragment, useContext } from "react";
-import GeneralContext from "./GeneralContext";
+import GeneralContext from "./GeneralContext/GeneralContext";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -36,7 +36,7 @@ const TopBarMenu = () => {
   const handleLogout = () => {
     LogContext.Logout();
   };
-    const handleLogin = () => {
+  const handleLogin = () => {
     LogContext.Login();
   };
 
@@ -130,7 +130,9 @@ const TopBarMenu = () => {
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>{LogContext.username[0]}</Avatar>
+                      <Avatar sx={{ width: 32, height: 32 }}>
+                        {LogContext.username[0]}
+                      </Avatar>
                     </IconButton>
                   </Tooltip>
                 </Box>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
-import GeneralContext from "./GeneralContext";
+import GeneralContext from "./GeneralContext/GeneralContext";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
@@ -10,9 +10,11 @@ import {
 } from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
-import axios from "axios";
+import WatchlistContext from "./GeneralContext/WishlistContext";
 
 function WatchListItem({ stock, onRemoveFromWatchlist }) {
+  const BuyContext = useContext(GeneralContext);
+
   let [showWatchlistAction, setShowWatchlistAction] = useState(false);
   let handleMouseEnter = () => {
     setShowWatchlistAction(true);
@@ -21,14 +23,17 @@ function WatchListItem({ stock, onRemoveFromWatchlist }) {
   let handleMouseLeave = () => {
     setShowWatchlistAction(false);
   };
+
   return (
     <li
-      className="bg-gray-700 font-bold"
+      className={` ${
+        BuyContext.selectedStock == stock.name ? "bg-gray-100" : "bg-gray-700"
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div className={`item ${stock.percent < 0 ? "down" : "up"}`}>
-        <p className={stock.percent < 0 ? "down" : "up"}>{stock.name}</p>
+        <p>{stock.name}</p>
         <div className="itemInfo">
           <span className={`percent mx-2 ${stock.percent < 0 ? "down" : "up"}`}>
             {stock.percent > 0 ? "+" : ""}
@@ -53,21 +58,13 @@ function WatchListItem({ stock, onRemoveFromWatchlist }) {
 }
 
 const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
+  const { handleRemove } = useContext(WatchlistContext);
   const BuyContext = useContext(GeneralContext);
-  const handleRemove = async () => {
-    try {
-      await axios.put("http://localhost:3002/removefromwatchlist", {
-        name: uuid,
-      });
-      console.log(`${uuid} removed from watchlist`);
-      // Refresh the watchlist data
-      if (onRemoveFromWatchlist) {
-        onRemoveFromWatchlist();
-      }
-    } catch (error) {
-      console.error("Error removing from watchlist:", error);
-    }
-  };
+
+  // Refresh the watchlist data
+  if (onRemoveFromWatchlist) {
+    onRemoveFromWatchlist();
+  }
   return (
     <span className="actions">
       <span>
@@ -79,7 +76,9 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
         >
           <button
             className="buy"
-            onClick={() => BuyContext.openBuyWindow(uuid)}
+            onClick={() => {
+              BuyContext.openBuyWindow(uuid);
+            }}
           >
             B
           </button>
@@ -92,7 +91,9 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
         >
           <button
             className="sell"
-            onClick={() => BuyContext.openSellWindow(uuid)}
+            onClick={() => {
+              BuyContext.openSellWindow(uuid);
+            }}
           >
             S
           </button>
@@ -118,7 +119,7 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action" onClick={handleRemove}>
+          <button className="action" onClick={() => handleRemove(uuid)}>
             <Delete className="icon" />
           </button>
         </Tooltip>

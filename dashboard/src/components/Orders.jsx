@@ -5,7 +5,7 @@ import formatTine from "../timeFormat";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3002/allorder").then((res) => {
+    axios.get("http://localhost:3002/load/orders").then((res) => {
       setOrders(res.data);
     });
   }, []);

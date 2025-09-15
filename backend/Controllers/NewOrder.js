@@ -15,11 +15,7 @@ module.exports.newOrderController = async (req, res) => {
         const newOrder = new OrderModel({
             name, qty, price, orderStatus, mode, product
         })
-        await newOrder.save()
-            .then((res) => {
-                console.log("New order is saved !", res);
-            })
-            .catch((e) => { console.log(e); });
+        await newOrder.save();
         //if statuc is executed //always executed incase of buy order
 
         // save in position model ->
@@ -35,7 +31,7 @@ module.exports.newOrderController = async (req, res) => {
         } else {
             //if not present then create new position doc.
             const newPosit = new PositionModel({
-                product, name, qty, avg, price, day
+                product, name, qty, avg:price, price, day
             });
             await newPosit.save();
             console.log("In Buy orde api new position saved")
@@ -45,6 +41,11 @@ module.exports.newOrderController = async (req, res) => {
             //     console.log("new position is saved in Byu api", res)
             // })
         }
+        return res.json({
+            msg: `${qty} ${name} stock bought`,
+            status: "success"
+        });
+
         //push that position in user.position
         // after 24 hrs remove from posiiton 
         // is product is cnc then 
@@ -54,6 +55,10 @@ module.exports.newOrderController = async (req, res) => {
         //usecron
     } catch (e) {
         console.log("Error in newOrder Api", e)
+        return res.json({
+            msg: `Error`,
+            status: "error"
+        });
     };
 }
 
