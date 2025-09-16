@@ -5,24 +5,23 @@ import axios from "axios";
 import StockListItem from "./StockListItem";
 import { Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-
+import GeneralContext from "./GeneralContext/GeneralContext";
+import { useContext } from "react";
 const StockDetailList = () => {
-  const [watchListData, setWatchListData] = useState([]);
+  
   const [stockData, setStockData] = useState([]);
   const [searchResults, setSearchResults] = useState(null);
   const searchQuery = useRef();
+  const { watchList } = useContext(GeneralContext);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/load/watchlist").then((res) => {
-      setWatchListData(res.data || []);
-    });
     axios.get("http://localhost:3002/load/stocks").then((res) => {
       setStockData(res.data || []);
     });
   }, []);
 
   const [selectWatchList, setSelectWatchList] = useState(false);
-  const stockList = selectWatchList ? watchListData : stockData;
+  const stockList = selectWatchList ? watchList : stockData;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const totalPages = Math.max(1, Math.ceil(stockList.length / itemsPerPage));

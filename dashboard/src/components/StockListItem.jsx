@@ -11,7 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
 import WatchlistContext from "./GeneralContext/WishlistContext";
 
-function StockListItem({ stock, onAddToWatchlist }) {
+function StockListItem({ stock }) {
   let [showWatchlistAction, setShowWatchlistAction] = useState(false);
 
   let handleMouseEnter = () => {
@@ -46,23 +46,15 @@ function StockListItem({ stock, onAddToWatchlist }) {
           <span className="price mx-2">₹ {stock.price}</span>
         </div>
       </div>
-      {showWatchlistAction && (
-        <WatchListAction
-          uuid={stock.name}
-          onAddToWatchlist={onAddToWatchlist}
-        />
-      )}
+      {showWatchlistAction && <WatchListAction uuid={stock.name} />}
     </li>
   );
 }
 
-const WatchListAction = ({ uuid, onAddToWatchlist }) => {
+const WatchListAction = ({ uuid }) => {
   const BuyContext = useContext(GeneralContext);
   const { addToWishList } = useContext(WatchlistContext);
-  // Refresh the watchlist data
-  if (onAddToWatchlist) {
-    onAddToWatchlist();
-  }
+
   return (
     <span className="actions">
       <span>

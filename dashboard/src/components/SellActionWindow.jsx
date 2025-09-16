@@ -36,8 +36,7 @@ function SellActionWindow({ uid }) {
   return (
     <div
       className="shadow-md border-zinc-400 ps-2 pb-3 pt-0 rounded-md"
-      id="buy-window"
-      draggable="true"
+      id="sell-window"
     >
       <span className="row mb-2 h-10 bg-red-500 px-3 rounded-t text-white font-semibold">
         {uid}

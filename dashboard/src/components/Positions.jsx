@@ -1,18 +1,9 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 
+import GeneralContext from "./GeneralContext/GeneralContext";
+import { useContext } from "react";
 const Positions = () => {
-  const [positions, setPositions] = useState([]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:3002/load/positions")
-      .then((res) => {
-        setPositions(res.data);
-      })
-      .catch((e) =>
-        console.log("position data is not loading in Position.jsx" + e)
-      );
-  }, []);
+  const { positions } = useContext(GeneralContext);
+ 
   return (
     <>
       <h3 className="title">Positions ({positions.length})</h3>

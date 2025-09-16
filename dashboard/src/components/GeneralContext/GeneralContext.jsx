@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import BuyActionWindow from "../BuyActionWindow";
 import SellActionWindow from "../SellActionWindow";
 import axios from "axios";
@@ -10,7 +10,14 @@ const GeneralContext = createContext({
   closeSellWindow: () => {},
   buyStock: () => {},
   sellStock: () => {},
-  orderData: "",
+  orders: [],
+  holdings: [],
+  positions: [],
+  refreshHoldings: () => {},
+  refreshPositions: () => {},
+  refreshOrders: () => {},
+  watchList: [],
+  refreshWatchList: () => {},
   selectedStock: "",
 });
 
@@ -19,6 +26,60 @@ export const GeneralContextProvider = ({ children }) => {
     buy: false,
     sell: false,
   });
+  const [orders, setOrders] = useState([]);
+  const [holdings, setHoldings] = useState([]);
+  const [positions, setPositions] = useState([]);
+  const [watchList, setWatchList] = useState([]);
+  const refreshOrders = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/load/orders");
+      if (res.data) {
+        setOrders(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const refreshHoldings = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/load/holdings");
+      if (res.data) {
+        setHoldings(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching holdings:", error);
+    }
+  };
+
+  const refreshPositions = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/load/positions");
+      if (res.data) {
+        setPositions(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching positions:", error);
+    }
+  };
+
+  const refreshWatchList = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/load/watchlist");
+      if (res.data) {
+        setWatchList(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching holdings:", error);
+    }
+  };
+
+  useEffect(() => {
+    refreshOrders();
+    refreshHoldings();
+    refreshPositions();
+    refreshWatchList();
+  }, []);
 
   const [selectedStockUid, setselectedStockUid] = useState("");
 
@@ -55,6 +116,9 @@ export const GeneralContextProvider = ({ children }) => {
           position: "top-right",
         });
       }
+      await refreshOrders();
+      await refreshHoldings();
+      await refreshPositions();
     } catch (err) {
       console.error("Buy order error:", err);
       toast.error("Something went wrong!", {
@@ -77,6 +141,9 @@ export const GeneralContextProvider = ({ children }) => {
           position: "top-right",
         });
       }
+      await refreshOrders();
+      await refreshHoldings();
+      await refreshPositions();
     } catch (err) {
       console.error("Sell order error:", err);
       toast.error("Something went wrong!", {
@@ -95,9 +162,18 @@ export const GeneralContextProvider = ({ children }) => {
         buyStock: handleBuyClick,
         sellStock: handleSellClick,
         selectedStock: selectedStockUid,
+        orders,
+        holdings,
+        positions,
+        refreshHoldings,
+        refreshPositions,
+        refreshOrders,
+        watchList,
+        refreshWatchList,
       }}
     >
       {children}
+      
       {openWindow.buy && <BuyActionWindow uid={selectedStockUid} />}
       {openWindow.sell && <SellActionWindow uid={selectedStockUid} />}
       <ToastContainer />

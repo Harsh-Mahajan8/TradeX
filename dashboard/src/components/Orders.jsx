@@ -1,14 +1,10 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import formatTine from "../timeFormat";
+import GeneralContext from "./GeneralContext/GeneralContext";
+import { useContext } from "react";
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  useEffect(() => {
-    axios.get("http://localhost:3002/load/orders").then((res) => {
-      setOrders(res.data);
-    });
-  }, []);
+  const {orders}=useContext(GeneralContext);
+  
   return (
     <div className="orders">
       {orders.length == 0 && (

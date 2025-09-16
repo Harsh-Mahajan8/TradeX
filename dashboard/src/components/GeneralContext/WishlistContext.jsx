@@ -1,12 +1,15 @@
 import { createContext } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import GeneralContext from "./GeneralContext";
+import { useContext } from "react";
 const WatchlistContext = createContext({
   handleRemove: () => {},
   addToWishList: () => {},
 });
 
 export const WatchlistContextProvider = ({ children }) => {
+  const { refreshWatchList } = useContext(GeneralContext);
   const addToWishList = async (uuid) => {
     try {
       const res = await axios.put("http://localhost:3002/watchlist/add", {
@@ -17,12 +20,15 @@ export const WatchlistContextProvider = ({ children }) => {
       if (status === "success") {
         toast.success(message, {
           position: "bottom-right",
+          autoClose: 3000,
+          closeOnClick: true,
         });
       } else {
         toast.error(message, {
           position: "top-right",
         });
       }
+      refreshWatchList();
     } catch (error) {
       console.error("Error adding to watchlist:", error);
       toast.error("Something went wrong!", {
@@ -47,6 +53,7 @@ export const WatchlistContextProvider = ({ children }) => {
         });
       }
       console.log(`${uuid} removed from watchlist`);
+      refreshWatchList();
     } catch (error) {
       console.error("Error removing from watchlist:", error);
       toast.error("Something went wrong!", {
@@ -58,7 +65,6 @@ export const WatchlistContextProvider = ({ children }) => {
   return (
     <WatchlistContext.Provider value={{ handleRemove, addToWishList }}>
       {children}
-      <ToastContainer/>
     </WatchlistContext.Provider>
   );
 };

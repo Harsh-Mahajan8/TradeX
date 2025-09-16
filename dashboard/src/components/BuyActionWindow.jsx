@@ -8,6 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
+
 function BuyActionWindow({ uid }) {
   const [orderData, setOrderdata] = useState({
     name: "",
@@ -34,14 +35,14 @@ function BuyActionWindow({ uid }) {
   };
 
   return (
-    <div
-      className="shadow-md border-zinc-400 ps-2 pb-3 pt-0 rounded-md"
-      id="buy-window"
-      draggable="true"
-    >
-      <span className="row mb-2 h-10 bg-blue-400 px-3 rounded-t text-white font-semibold">
-        {uid}
-      </span>
+   
+      <div
+        className="shadow-md border-zinc-400 ps-2 pb-3 pt-0 rounded-md"
+        id="buy-window"
+      >
+        <span className="row mb-2 h-10 bg-blue-400 px-3 rounded-t text-white font-semibold">
+          {uid}
+        </span>
 
       <Box
         component="form"
@@ -105,6 +106,7 @@ function BuyActionWindow({ uid }) {
         </div>
       </div>
     </div>
+   
   );
 }
 

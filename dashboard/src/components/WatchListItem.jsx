@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
 import WatchlistContext from "./GeneralContext/WishlistContext";
 
-function WatchListItem({ stock, onRemoveFromWatchlist }) {
+function WatchListItem({ stock }) {
   const BuyContext = useContext(GeneralContext);
 
   let [showWatchlistAction, setShowWatchlistAction] = useState(false);
@@ -47,24 +47,17 @@ function WatchListItem({ stock, onRemoveFromWatchlist }) {
           <span className="price mx-2">₹ {stock.price}</span>
         </div>
       </div>
-      {showWatchlistAction && (
-        <WatchListAction
-          uuid={stock.name}
-          onRemoveFromWatchlist={onRemoveFromWatchlist}
-        />
-      )}
+      {showWatchlistAction && <WatchListAction uuid={stock.name} />}
     </li>
   );
 }
 
-const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
+const WatchListAction = ({ uuid }) => {
   const { handleRemove } = useContext(WatchlistContext);
-  const BuyContext = useContext(GeneralContext);
+  const { openBuyWindow, openSellWindow} =
+    useContext(GeneralContext);
 
   // Refresh the watchlist data
-  if (onRemoveFromWatchlist) {
-    onRemoveFromWatchlist();
-  }
   return (
     <span className="actions">
       <span>
@@ -77,7 +70,7 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
           <button
             className="buy"
             onClick={() => {
-              BuyContext.openBuyWindow(uuid);
+              openBuyWindow(uuid);
             }}
           >
             B
@@ -92,7 +85,7 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
           <button
             className="sell"
             onClick={() => {
-              BuyContext.openSellWindow(uuid);
+              openSellWindow(uuid);
             }}
           >
             S
@@ -119,7 +112,13 @@ const WatchListAction = ({ uuid, onRemoveFromWatchlist }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action" onClick={() => handleRemove(uuid)}>
+          <button
+            className="action"
+            onClick={() => {
+              handleRemove(uuid);
+     
+            }}
+          >
             <Delete className="icon" />
           </button>
         </Tooltip>

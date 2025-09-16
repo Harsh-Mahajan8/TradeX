@@ -1,20 +1,16 @@
-import axios from "axios";
-import { useEffect, useState, useRef } from "react";
 
+import { useEffect, useRef } from "react";
+import GeneralContext from "./GeneralContext/GeneralContext";
+import { useContext } from "react";
 const Holdings = ({ updateSummary }) => {
-  const [holdings, setHoldings] = useState([]);
+  const { holdings } = useContext(GeneralContext);
+  
   const updateSummaryRef = useRef(updateSummary);
 
   // Update the ref when updateSummary changes
   useEffect(() => {
     updateSummaryRef.current = updateSummary;
   }, [updateSummary]);
-
-  useEffect(() => {
-    axios.get("http://localhost:3002/load/holdings").then((res) => {
-      setHoldings(res.data || []);
-    });
-  }, []);
 
   // Move updateSummary call inside useEffect and remove updateSummary from dependencies
   useEffect(() => {
