@@ -17,7 +17,7 @@ const Menu = () => {
 
   return (
     <div className="menu-container">
-      <img src="logo.png" className="w-8" />
+      <img src="cross-mark.png" className="w-7" />
       <div className="menus">
         <ul>
           <li>

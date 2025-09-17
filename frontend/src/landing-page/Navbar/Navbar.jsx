@@ -50,7 +50,9 @@ function Navbar() {
             <ul className="navbar-nav justify-content-end flex-grow-1 gap-3">
               <li className="nav-item navItems">
                 <NavLink
-                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? "active" : ""}`
+                  }
                   end
                   aria-current="page"
                   to="/signup"
@@ -60,7 +62,9 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? "active" : ""}`
+                  }
                   end
                   to="/about"
                 >
@@ -69,7 +73,9 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? "active" : ""}`
+                  }
                   end
                   to="/product"
                 >
@@ -78,7 +84,9 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? "active" : ""}`
+                  }
                   end
                   to="/pricing"
                 >
@@ -87,7 +95,9 @@ function Navbar() {
               </li>
               <li className="nav-item navItems">
                 <NavLink
-                  className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? "active" : ""}`
+                  }
                   end
                   to="/support"
                 >
@@ -100,25 +110,33 @@ function Navbar() {
                   title={<i className="fa-solid fa-bars text-[1.32rem]"></i>}
                 >
                   <div className="row p-6 text-center mx-auto">
-                    <div className="col-3"><a href="#">
-                      <img src="/Navdrop/kite-logo.svg" alt="kite" />
-                      <header>Kite</header>
-                      <p>Trading Platform</p></a>
+                    <div className="col-3">
+                      <Link to="/login">
+                        <img src="/Navdrop/kite-logo.svg" alt="kite" />
+                        <header>Kite</header>
+                        <p>Trading Platform</p>
+                      </Link>
                     </div>
-                    <div className="col-3"><a href="#">
-                      <img src="/Navdrop/console.svg" alt="" />
-                      <header>Console</header>
-                      <p>Backoffice</p></a>
+                    <div className="col-3">
+                      <a href="#">
+                        <img src="/Navdrop/console.svg" alt="" />
+                        <header>Console</header>
+                        <p>Backoffice</p>
+                      </a>
                     </div>
-                    <div className="col-3"><a href="#">
-                      <img src="/Navdrop/kite-connect.svg" alt="" />
-                      <header>Kite Connect</header>
-                      <p>Trading APIs</p></a>
+                    <div className="col-3">
+                      <a href="#">
+                        <img src="/Navdrop/kite-connect.svg" alt="" />
+                        <header>Kite Connect</header>
+                        <p>Trading APIs</p>
+                      </a>
                     </div>
-                    <div className="col-3"><a href="#">
-                      <img src="/Navdrop/coin.svg" alt="" />
-                      <header>Coin</header>
-                      <p>Mutual funds</p></a>
+                    <div className="col-3">
+                      <a href="#">
+                        <img src="/Navdrop/coin.svg" alt="" />
+                        <header>Coin</header>
+                        <p>Mutual funds</p>
+                      </a>
                     </div>
                   </div>
                   <div className="row dropRow p-6">
@@ -162,13 +180,21 @@ function Navbar() {
                     </div>
                     <div className="col-auto">
                       <header>Education</header>
-                      <img className="w-9 ms-3 my-3" src="/Navdrop/varsity.png" alt="varsity" />
+                      <img
+                        className="w-9 ms-3 my-3"
+                        src="/Navdrop/varsity.png"
+                        alt="varsity"
+                      />
                       <a href="">
                         <li className="ms-3">Varsity</li>
                       </a>
                     </div>
                     <div className="col-auto pt-[1.82rem] ms-[5.6rem]">
-                      <img className="w-9 my-3 " src="/Navdrop/tqna.png" alt="tqna" />
+                      <img
+                        className="w-9 my-3 "
+                        src="/Navdrop/tqna.png"
+                        alt="tqna"
+                      />
                       <a href="">
                         <li className="-ms-3">Trading Q&A</li>
                       </a>

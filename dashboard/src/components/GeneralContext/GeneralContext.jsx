@@ -2,6 +2,9 @@ import { createContext, useEffect, useState } from "react";
 import BuyActionWindow from "../BuyActionWindow";
 import SellActionWindow from "../SellActionWindow";
 import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 import { toast, ToastContainer } from "react-toastify";
 const GeneralContext = createContext({
   openBuyWindow: () => {},
@@ -173,7 +176,7 @@ export const GeneralContextProvider = ({ children }) => {
       }}
     >
       {children}
-      
+
       {openWindow.buy && <BuyActionWindow uid={selectedStockUid} />}
       {openWindow.sell && <SellActionWindow uid={selectedStockUid} />}
       <ToastContainer />

@@ -1,4 +1,4 @@
-const User = require("../models/UserModel");
+const User = require("../Middlewares/models/UserModel");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcrypt");
 
@@ -22,7 +22,7 @@ module.exports.Signup = async (req, res, next) => {
         });
         res
             .status(201)
-            .json({ message: "User signed up successfully", success: true, user });
+            .json({ message: `${user.username} signed up successfully`, success: true, user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error", success: false });
@@ -49,7 +49,7 @@ module.exports.Login = async (req, res, next) => {
             withCredentials: true,
             httpOnly: false,
         });
-        res.status(201).json({ message: "User logged in successfully", success: true });
+        res.status(201).json({ message: `${user.username} logged in successfully`, success: true, user });
         next()
     } catch (error) {
         console.error(error);

@@ -1,6 +1,63 @@
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 function LoginPage() {
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = inputValue;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
+
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-left",
+    });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3002/user/login",
+        {
+          ...inputValue,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      const { success, message } = data;
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          window.location.href = "http://localhost:5173";
+        }, 1000);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setInputValue({
+      ...inputValue,
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <div className="container m-5">
       <div className="row justify-center ">
@@ -19,11 +76,14 @@ function LoginPage() {
           <p className="ps-4 text-[#fff!important] text-[1rem]">
             Login to your account
           </p>
-          <form action="" className="ps-4 pe-[8rem]">
+          <form action="" className="ps-4 pe-[8rem]" onSubmit={handleSubmit}>
             <TextField
               label="Email"
               variant="standard"
               fullWidth
+              name="email"
+              onChange={handleChange}
+              value={email}
               InputLabelProps={{
                 style: { color: "white" }, // label white
               }}
@@ -47,6 +107,9 @@ function LoginPage() {
               label="Password"
               variant="standard"
               fullWidth
+              name="password"
+              onChange={handleChange}
+              value={password}
               InputLabelProps={{
                 style: { color: "white" }, // label white
               }}
@@ -70,10 +133,18 @@ function LoginPage() {
               <button className="mt-4 bg-gradient-to-b from-indigo-500 to-pink-700 bg-clip-text text-transparent font-bold my-3 mx-0 hover:text-[#000!important]">
                 Login
               </button>
+            </span>{" "}
+            <br />
+            <span>
+              Already have an account?{" "}
+              <Link className="text-[#ffd165!important]" to={"/signup"}>
+                Signup
+              </Link>
             </span>
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
