@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import GeneralContext from "./GeneralContext/GeneralContext";
 const Summary = ({ holdingLen, tInvestment, currValue, lp }) => {
   const safeLp = lp || { num: 0, per: 0 };
+  const {userData} = useContext(GeneralContext);
+
   return (
     <>
       <div className="username">
-        <h6>Hi, User!</h6>
+        <h6>Hi, {userData.username}!</h6>
         <hr className="divider" />
       </div>
 

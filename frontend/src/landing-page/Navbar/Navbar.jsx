@@ -140,43 +140,23 @@ function Navbar() {
                     </div>
                   </div>
                   <div className="row dropRow p-6">
-                    <div className="col-auto ms-[3.4rem]">
+                    <div className="col-auto ms-[1.4rem]">
                       <header>Utilities</header>
-
-                      <a href="">
-                        <li> Calculators</li>
-                      </a>
-
-                      <a href="">
-                        <li>Brokerage calculator</li>
-                      </a>
-
-                      <a href="">
-                        <li>Margin calculator</li>
-                      </a>
-
-                      <a href="">
-                        <li>SIP calculator</li>
-                      </a>
+                      <ul>
+                        <li><a href=""> Calculators</a></li>
+                        <li><a href="">Brokerage calculator</a></li>
+                        <li><a href="">Margin calculator</a></li>
+                        <li><a href="">SIP calculator</a></li>
+                      </ul>
                     </div>
                     <div className="col-3 ms-3">
                       <header>Updates</header>
-
-                      <a href="">
-                        <li> Z-Connect blog</li>
-                      </a>
-
-                      <a href="">
-                        <li>Circulars / Bulletin</li>
-                      </a>
-
-                      <a href="">
-                        <li>IPOs</li>
-                      </a>
-
-                      <a href="">
-                        <li>Markets</li>
-                      </a>
+                      <ul>
+                        <li><a href=""> Z-Connect blog</a></li>
+                        <li><a href="">Circulars / Bulletin</a></li>
+                        <li><a href="">IPOs</a></li>
+                        <li><a href="">Markets</a></li>
+                      </ul>
                     </div>
                     <div className="col-auto">
                       <header>Education</header>
@@ -185,9 +165,9 @@ function Navbar() {
                         src="/Navdrop/varsity.png"
                         alt="varsity"
                       />
-                      <a href="">
-                        <li className="ms-3">Varsity</li>
-                      </a>
+                      <ul>
+                        <li className="ms-1"><a href="">Varsity</a></li>
+                      </ul>
                     </div>
                     <div className="col-auto pt-[1.82rem] ms-[5.6rem]">
                       <img
@@ -195,9 +175,9 @@ function Navbar() {
                         src="/Navdrop/tqna.png"
                         alt="tqna"
                       />
-                      <a href="">
-                        <li className="-ms-3">Trading Q&A</li>
-                      </a>
+                      <ul>
+                        <li className="-ms-3"><a href="">Trading Q&A</a></li>
+                      </ul>
                     </div>
                   </div>
                 </NavDrop>

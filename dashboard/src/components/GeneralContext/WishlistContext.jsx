@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import GeneralContext from "./GeneralContext";
 import { useContext } from "react";
 const WatchlistContext = createContext({

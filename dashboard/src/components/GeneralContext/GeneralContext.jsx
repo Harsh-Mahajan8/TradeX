@@ -2,10 +2,9 @@ import { createContext, useEffect, useState } from "react";
 import BuyActionWindow from "../BuyActionWindow";
 import SellActionWindow from "../SellActionWindow";
 import axios from "axios";
-
 axios.defaults.withCredentials = true;
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 const GeneralContext = createContext({
   openBuyWindow: () => {},
   closeBuyWindow: () => {},
@@ -16,12 +15,14 @@ const GeneralContext = createContext({
   orders: [],
   holdings: [],
   positions: [],
+  userData: {},
   refreshHoldings: () => {},
   refreshPositions: () => {},
   refreshOrders: () => {},
   watchList: [],
   refreshWatchList: () => {},
   selectedStock: "",
+  handleLogout: () => {},
 });
 
 export const GeneralContextProvider = ({ children }) => {
@@ -33,6 +34,22 @@ export const GeneralContextProvider = ({ children }) => {
   const [holdings, setHoldings] = useState([]);
   const [positions, setPositions] = useState([]);
   const [watchList, setWatchList] = useState([]);
+  const [userData, setUserData] = useState({});
+
+  const getUser = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/user/me");
+      if (res.data && res.data.username) {
+        setUserData(res.data);
+      } else {
+        setUserData("");
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setUserData("");
+    }
+  };
+
   const refreshOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3002/load/orders");
@@ -82,6 +99,7 @@ export const GeneralContextProvider = ({ children }) => {
     refreshHoldings();
     refreshPositions();
     refreshWatchList();
+    getUser();
   }, []);
 
   const [selectedStockUid, setselectedStockUid] = useState("");
@@ -155,6 +173,31 @@ export const GeneralContextProvider = ({ children }) => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get("http://localhost:3002/user/logout");
+      const { message } = res.data;
+      console.log("Logged out", res);
+
+      setUserData({});
+      // Clear any cached data
+      setOrders([]);
+      setHoldings([]);
+      setPositions([]);
+      setWatchList([]);
+      // Navigate to login page
+      window.location.href = "http://localhost:5174/login";
+      toast.success(message, {
+        position: "top-right",
+      });
+    } catch (err) {
+      console.error("Failed to log out", err);
+      toast.error("Failed to logout", {
+        position: "top-right",
+      });
+    }
+  };
+
   return (
     <GeneralContext.Provider
       value={{
@@ -173,13 +216,14 @@ export const GeneralContextProvider = ({ children }) => {
         refreshOrders,
         watchList,
         refreshWatchList,
+        userData,
+        handleLogout,
       }}
     >
       {children}
 
       {openWindow.buy && <BuyActionWindow uid={selectedStockUid} />}
       {openWindow.sell && <SellActionWindow uid={selectedStockUid} />}
-      <ToastContainer />
     </GeneralContext.Provider>
   );
 };

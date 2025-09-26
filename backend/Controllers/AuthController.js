@@ -1,37 +1,33 @@
-const User = require("../Middlewares/models/UserModel");
+const User = require("../models/UserModel");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcrypt");
 
 module.exports.Signup = async (req, res, next) => {
-
     try {
-        console.log(req.originalUrl);
         const { email, password, username, createdAt } = req.body;
-        if (!email || !password || !username) {
-            return res.status(400).json({ message: "Email, username and password are required", success: false });
-        }
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.json({ message: "User already exists", success: false });
+            return res.json({ message: "User already exists" });
         }
         const user = await User.create({ email, password, username, createdAt });
         const token = createSecretToken(user._id);
         res.cookie("token", token, {
             withCredentials: true,
-            httpOnly: true,
+            httpOnly: false,
         });
+
         res
             .status(201)
-            .json({ message: `${user.username} signed up successfully`, success: true, user });
+            .json({ message: "User signed in successfully", success: true, user });
+
+        next();
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal server error", success: false });
     }
 };
 
 module.exports.Login = async (req, res, next) => {
     try {
-        console.log(req.originalUrl)
         const { email, password } = req.body;
         if (!email || !password) {
             return res.json({ message: 'All fields are required' })
@@ -49,22 +45,30 @@ module.exports.Login = async (req, res, next) => {
             withCredentials: true,
             httpOnly: false,
         });
-        res.status(201).json({ message: `${user.username} logged in successfully`, success: true, user });
+        res.status(201).json({ message: `${user.username} logged in successfully`, success: true, username: user.username });
         next()
     } catch (error) {
         console.error(error);
     }
-}
+};
 
-module.exports.Logout = async (req, res, next) => {
+module.exports.getUser = async (req, res, next) => {
     try {
-        res.clearCookie("token", {
-            withCredentials: true,
-            httpOnly: false,
-        });
-        res.status(200).json({ message: "User logged out successfully", success: true });
+        const user = req.user;
+        res.status(200).json({ username: user.username, email: user.email });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal server error", success: false });
+        res.status(500).json({ message: 'Server error' });
     }
+}
+module.exports.LogOut = async (req, res) => {
+    try {
+
+        res.clearCookie("token");
+        res.json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+
 }

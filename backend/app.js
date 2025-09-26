@@ -7,11 +7,12 @@ const bodyParser = require("body-parser");
 const cron = require("node-cron")
 const cookieParser = require('cookie-parser');
 const orderRoute = require("./Routes/OrderRoute.js");
-const AuthRoute = require("./Routes/AuthRoute.js");
+
 const { cronController } = require('./Controllers/NewOrder.js');
-const { userVerification } = require('./Middlewares/AuthMiddleware.js');
+const authRoute = require("./Routes/AuthRoute.js");
 const watchlistRoute = require("./Routes/WatchListRoute.js");
-const LoadDataRoute = require("./Routes/LoadDataRoute.js")
+const LoadDataRoute = require("./Routes/LoadDataRoute.js");
+const { userVerification } = require('./Middlewares/AuthMiddleware.js');
 const { PORT = 3002, MONGO_URL: URL } = process.env;
 const app = express();
 mongoose.connect(URL).then(() => {
@@ -21,7 +22,7 @@ app.listen(PORT, () => {
     console.log("Server is working at port " + PORT);
 })
 app.use(cors({
-    origin: ["http://localhost:5174", "http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));
@@ -29,9 +30,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/user", AuthRoute);
-
 app.use("/load", userVerification, LoadDataRoute)
+app.use("/user", authRoute);
 
 app.use("/watchlist", userVerification, watchlistRoute);
 

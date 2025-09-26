@@ -1,4 +1,4 @@
-import Menu from "./Menu";
+import TopMenu from "./TopMenu";
 
 const TopBar = () => {
   return (
@@ -15,7 +15,7 @@ const TopBar = () => {
           <p className="percent"></p>
         </div>
       </div>
-      <Menu />
+      <TopMenu />
     </div>
   );
 };

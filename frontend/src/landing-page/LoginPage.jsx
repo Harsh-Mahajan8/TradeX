@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function LoginPage() {
   const [inputValue, setInputValue] = useState({
     email: "",
@@ -42,6 +42,7 @@ function LoginPage() {
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
+        
         setTimeout(() => {
           window.location.href = "http://localhost:5173";
         }, 1000);
@@ -59,9 +60,10 @@ function LoginPage() {
   };
 
   return (
-    <div className="container m-5">
-      <div className="row justify-center ">
-        <div className="flex flex-col justify-center items-center col-md-5">
+    <div className="container m-5 pt-[3rem]">
+      <div className="row justify-center bg-gradient-to-b from-indigo-500 to-pink-700 text-white rounded-r-md">
+        <div className="col-md-1 bg-white"></div>
+        <div className="flex flex-col justify-center items-center col-md-6 bg-white rounded-xl m-1">
           <img
             src="/Navbar/cross-mark.png"
             alt=""
@@ -71,8 +73,16 @@ function LoginPage() {
             TradeX
           </span>
         </div>
-        <div className="col-md-4 p-[2rem] bg-gradient-to-b from-indigo-500 to-pink-700 text-white rounded-r-md">
-          <h4 className="ps-4">Welcome Back!!!</h4>
+        <div className="col-md-4 p-[2rem] ">
+          <div className="row justify-between">
+            <h4 className="ps-4 col-auto">Welcome Back!!!</h4>
+            <button className="col-auto bg-white border-2 rounded py-1">
+              <Link to="..">
+                <ArrowBackIcon /> Back
+              </Link>
+            </button>
+          </div>
+
           <p className="ps-4 text-[#fff!important] text-[1rem]">
             Login to your account
           </p>
@@ -143,6 +153,7 @@ function LoginPage() {
             </span>
           </form>
         </div>
+        <div className="col-1 bg-white"></div>
       </div>
       <ToastContainer />
     </div>
