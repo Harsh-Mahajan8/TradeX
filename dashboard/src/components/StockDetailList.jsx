@@ -8,12 +8,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import GeneralContext from "./GeneralContext/GeneralContext";
 import { useContext } from "react";
 const StockDetailList = () => {
-  
   const [stockData, setStockData] = useState([]);
   const [searchResults, setSearchResults] = useState(null);
   const searchQuery = useRef();
   const { watchList } = useContext(GeneralContext);
-
   useEffect(() => {
     axios.get("http://localhost:3002/load/stocks").then((res) => {
       setStockData(res.data || []);

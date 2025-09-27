@@ -2,6 +2,7 @@ const HoldingModel = require("../models/HoldingModel.js");
 const PositionModel = require("../models/PositionModel.js");
 const OrderModel = require("../models/OrderModel.js");
 const StockDataModel = require("../models/StockDataModel.js");
+const userModel = require("../models/UserModel.js");
 
 module.exports.newOrderController = async (req, res) => {
     try {
@@ -16,6 +17,10 @@ module.exports.newOrderController = async (req, res) => {
             name, qty, price, orderStatus, mode, product
         })
         await newOrder.save();
+        //push that position in user.position
+        await userModel.findOneAndUpdate({ _id: req.user._id }, { $push: { orders: newOrder._id } });
+
+
         //if statuc is executed //always executed incase of buy order
 
         // save in position model ->
@@ -28,12 +33,20 @@ module.exports.newOrderController = async (req, res) => {
             const newAvg = ((stockInPosition.avg * stockInPosition.qty + price * qty) / newqty);
             await PositionModel.findOneAndUpdate({ name, product }, { qty: newqty, avg: newAvg });
             console.log("posiiton updated in Buy stock api")
+            //do noy push incase of update order in position model
+            //push into user.position
         } else {
             //if not present then create new position doc.
             const newPosit = new PositionModel({
-                product, name, qty, avg:price, price, day
+                product, name, qty, avg: price, price, day
             });
             await newPosit.save();
+            //do not use push use addtoset as there should not be duplicate entries
+            //pushX -> addToSet in user.position
+            await userModel.findOneAndUpdate({ _id: req.user._id }, { $addToSet: { positions: newPosit._id } });
+
+
+
             console.log("In Buy orde api new position saved")
             // await PositionModel.insertOne({
             //     
@@ -64,23 +77,63 @@ module.exports.newOrderController = async (req, res) => {
 
 // CRON: Every day at 11:59 PM → move CNC from positions to holdings
 module.exports.cronController = async () => {
-    console.log("Running end-of-day job...");
+    try {
+        console.log("Running end-of-day job...");
 
-    const cncPositions = await PositionModel.find({ product: "CNC" });
+        // Find all CNC positions
+        const cncPositions = await PositionModel.find({ product: "CNC" });
 
-    for (let pos of cncPositions) {
-        let holding = await HoldingModel.findOne({ name: pos.name });
-        if (holding) {
-            // merge qty & avg
-            const totalQty = holding.qty + pos.qty;
-            const newAvg =
-                (holding.avg * holding.qty + pos.avg * pos.qty) / totalQty;
-            holding.qty = totalQty;
-            holding.avg = newAvg;
-            await holding.save();
-        } else {
-            await new HoldingModel(pos.toObject()).save();
+        for (let pos of cncPositions) {
+            // Check 24 hours passed
+            const now = new Date();
+            const hoursPassed = (now - pos.time) / (1000 * 60 * 60);
+            if (hoursPassed < 24) continue;
+
+            // Directly get userId from pos
+            const userId = pos.user;
+
+            // Check if user already has holding in same stock
+            let holding = await HoldingModel.findOne({ name: pos.name, user: userId });
+
+            if (holding) {
+                // Merge qty & avg
+                const totalQty = holding.qty + pos.qty;
+                const newAvg =
+                    (holding.avg * holding.qty + pos.avg * pos.qty) / totalQty;
+
+                holding.qty = totalQty;
+                holding.avg = newAvg;
+                await holding.save();
+            } else {
+                // Create new holding with user link
+                const newHolding = new HoldingModel({
+                    product: pos.product,
+                    name: pos.name,
+                    qty: pos.qty,
+                    avg: pos.avg,
+                    price: pos.price,
+                    day: pos.day,
+                    user: userId
+                });
+                await newHolding.save();
+
+                // Add to user's holdings array
+                await userModel.findByIdAndUpdate(userId, {
+                    $addToSet: { holdings: newHolding._id }
+                });
+            }
+
+            // Delete position
+            await PositionModel.deleteOne({ _id: pos._id });
+
+            // Remove from user's positions array
+            await userModel.findByIdAndUpdate(userId, {
+                $pull: { positions: pos._id }
+            });
+
+            console.log(`Moved ${pos.name} from Position → Holding for user ${userId}`);
         }
-        await PositionModel.deleteOne({ _id: pos._id });
+    } catch (error) {
+        console.error("Error in cron job:", error);
     }
 };

@@ -1,7 +1,8 @@
 import { NavLink, Navigate } from "react-router-dom";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+import { deepOrange } from '@mui/material/colors';
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -20,7 +21,9 @@ const TopMenu = () => {
   const handleMenuClick = (idx) => {
     setSelectedMenu(idx);
   };
-  console.log("Menu selected" + selectedMenu);
+  useEffect(() => {
+    console.log("Menu selected", selectedMenu);
+  }, [selectedMenu]);
 
   //profile functions
 
@@ -122,7 +125,9 @@ const TopMenu = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                   >
-                    <Avatar sx={{ width: 32, height: 32 }}>
+                    <Avatar
+                      sx={{ width: 32, height: 32, bgcolor: deepOrange[500] }}
+                    >
                       {userData && userData.username
                         ? userData.username[0]
                         : ""}

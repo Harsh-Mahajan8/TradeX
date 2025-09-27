@@ -9,7 +9,7 @@ const WatchlistContext = createContext({
 });
 
 export const WatchlistContextProvider = ({ children }) => {
-  const { refreshWatchList } = useContext(GeneralContext);
+  const { refreshUserData } = useContext(GeneralContext);
   const addToWishList = async (uuid) => {
     try {
       const res = await axios.put("http://localhost:3002/watchlist/add", {
@@ -28,7 +28,7 @@ export const WatchlistContextProvider = ({ children }) => {
           position: "top-right",
         });
       }
-      refreshWatchList();
+      refreshUserData();
     } catch (error) {
       console.error("Error adding to watchlist:", error);
       toast.error("Something went wrong!", {
@@ -53,7 +53,7 @@ export const WatchlistContextProvider = ({ children }) => {
         });
       }
       console.log(`${uuid} removed from watchlist`);
-      refreshWatchList();
+      refreshUserData();
     } catch (error) {
       console.error("Error removing from watchlist:", error);
       toast.error("Something went wrong!", {

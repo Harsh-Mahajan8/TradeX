@@ -36,9 +36,9 @@ export const GeneralContextProvider = ({ children }) => {
   const [watchList, setWatchList] = useState([]);
   const [userData, setUserData] = useState({});
 
-  const getUser = async () => {
+  const refreshUserData = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/user/me");
+      const res = await axios.get("http://localhost:3002/load/userdata");
       if (res.data && res.data.username) {
         setUserData(res.data);
       } else {
@@ -47,15 +47,17 @@ export const GeneralContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching user:", error);
       setUserData("");
+      window.location.href = "http://localhost:5174/login";
     }
   };
 
   const refreshOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/load/orders");
-      if (res.data) {
-        setOrders(res.data);
-      }
+      // const res = await axios.get("http://localhost:3002/load/orders");
+      // if (res.data) {
+      //   setOrders(res.data);
+      // }
+      setOrders(userData.orders || []);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -63,10 +65,11 @@ export const GeneralContextProvider = ({ children }) => {
 
   const refreshHoldings = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/load/holdings");
-      if (res.data) {
-        setHoldings(res.data);
-      }
+      // const res = await axios.get("http://localhost:3002/load/holdings");
+      // if (res.data) {
+      //   setHoldings(res.data);
+      // }
+      setHoldings(userData.holdings || []);
     } catch (error) {
       console.error("Error fetching holdings:", error);
     }
@@ -74,10 +77,11 @@ export const GeneralContextProvider = ({ children }) => {
 
   const refreshPositions = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/load/positions");
-      if (res.data) {
-        setPositions(res.data);
-      }
+      // const res = await axios.get("http://localhost:3002/load/positions");
+      // if (res.data) {
+      //   setPositions(res.data);
+      // }
+      setPositions(userData.positions || []);
     } catch (error) {
       console.error("Error fetching positions:", error);
     }
@@ -85,22 +89,26 @@ export const GeneralContextProvider = ({ children }) => {
 
   const refreshWatchList = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/load/watchlist");
-      if (res.data) {
-        setWatchList(res.data);
-      }
+      // const res = await axios.get("http://localhost:3002/load/watchlist");
+      // if (res.data) {
+      //   setWatchList(res.data);
+      // }
+      setWatchList(userData.watchlist || []);
     } catch (error) {
       console.error("Error fetching holdings:", error);
     }
   };
 
   useEffect(() => {
-    refreshOrders();
-    refreshHoldings();
-    refreshPositions();
-    refreshWatchList();
-    getUser();
+    refreshUserData();
   }, []);
+
+  useEffect(() => {
+    setOrders(userData.orders || []);
+    setHoldings(userData.holdings || []);
+    setPositions(userData.positions || []);
+    setWatchList(userData.watchlist || []);
+  }, [userData]);
 
   const [selectedStockUid, setselectedStockUid] = useState("");
 
@@ -137,9 +145,10 @@ export const GeneralContextProvider = ({ children }) => {
           position: "top-right",
         });
       }
-      await refreshOrders();
-      await refreshHoldings();
-      await refreshPositions();
+      // await refreshOrders();
+      // await refreshHoldings();
+      // await refreshPositions();
+      await refreshUserData();
     } catch (err) {
       console.error("Buy order error:", err);
       toast.error("Something went wrong!", {
@@ -162,9 +171,10 @@ export const GeneralContextProvider = ({ children }) => {
           position: "top-right",
         });
       }
-      await refreshOrders();
-      await refreshHoldings();
-      await refreshPositions();
+      // await refreshOrders();
+      // await refreshHoldings();
+      // await refreshPositions();
+      await refreshUserData();
     } catch (err) {
       console.error("Sell order error:", err);
       toast.error("Something went wrong!", {
@@ -217,6 +227,7 @@ export const GeneralContextProvider = ({ children }) => {
         watchList,
         refreshWatchList,
         userData,
+        refreshUserData,
         handleLogout,
       }}
     >

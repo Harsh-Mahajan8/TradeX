@@ -1,4 +1,4 @@
-const { model, Schema  } = require("mongoose");
+const { model, Schema } = require("mongoose");
 const HoldingSchema = new Schema({
     product: String,
     name: String,
@@ -7,6 +7,7 @@ const HoldingSchema = new Schema({
     price: Number,
     net: Number,
     day: Number,
+    user: { type: Schema.Types.ObjectId, ref: "User" }
 })
 
 module.exports = model("Holding", HoldingSchema);
