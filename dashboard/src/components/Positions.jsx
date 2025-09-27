@@ -1,9 +1,9 @@
-
 import GeneralContext from "./GeneralContext/GeneralContext";
 import { useContext } from "react";
+import { VerticalChart } from "./VerticalChart";
 const Positions = () => {
   const { positions } = useContext(GeneralContext);
- 
+
   return (
     <>
       <h3 className="title">Positions ({positions.length})</h3>
@@ -47,6 +47,9 @@ const Positions = () => {
             })}
           </tbody>
         </table>
+      </div>
+      <div className="pt-5">
+        <VerticalChart data={positions} />
       </div>
     </>
   );

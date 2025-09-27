@@ -11,7 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
 import WatchlistContext from "./GeneralContext/WishlistContext";
 
-function StockListItem({ stock }) {
+function StockListItem({ stock, handleGraph }) {
   let [showWatchlistAction, setShowWatchlistAction] = useState(false);
 
   let handleMouseEnter = () => {
@@ -46,12 +46,12 @@ function StockListItem({ stock }) {
           <span className="price mx-2">₹ {stock.price}</span>
         </div>
       </div>
-      {showWatchlistAction && <WatchListAction uuid={stock.name} />}
+      {showWatchlistAction && <WatchListAction uuid={stock.name} handleGraphClick = {handleGraph} />}
     </li>
   );
 }
 
-const WatchListAction = ({ uuid }) => {
+const WatchListAction = ({ uuid, handleGraphClick }) => {
   const BuyContext = useContext(GeneralContext);
   const { addToWishList } = useContext(WatchlistContext);
 
@@ -90,7 +90,7 @@ const WatchListAction = ({ uuid }) => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="action">
+          <button className="action" onClick={handleGraphClick}>
             <BarChartOutlined className="icon" />
           </button>
         </Tooltip>

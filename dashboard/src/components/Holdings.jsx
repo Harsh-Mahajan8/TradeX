@@ -1,10 +1,11 @@
-
 import { useEffect, useRef } from "react";
 import GeneralContext from "./GeneralContext/GeneralContext";
 import { useContext } from "react";
+import { VerticalChart } from "./VerticalChart";
+
 const Holdings = ({ updateSummary }) => {
   const { holdings } = useContext(GeneralContext);
-  
+
   const updateSummaryRef = useRef(updateSummary);
 
   // Update the ref when updateSummary changes
@@ -172,6 +173,9 @@ const Holdings = ({ updateSummary }) => {
           </h5>
           <p>P&L</p>
         </div>
+      </div>
+      <div className="pt-5">
+        {holdings.length!=0 && <VerticalChart data={holdings} />}
       </div>
     </>
   );
