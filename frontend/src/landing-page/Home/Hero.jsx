@@ -3,7 +3,7 @@ function Hero() {
   return (
     <div className="container mb-[6rem]">
       <div className="row text-center col-10 mx-auto">
-        <img src="Home/landing.png" alt="" className="mb-5 mx-auto" />
+        <img src="Home/landing.png" alt="homeHero" className="mb-5 mx-auto" />
         <h2>Invest in everything</h2>
         <p className="text-xl">
           Online platform to invest in stocks, derivatives, mutual funds, ETFs,
